@@ -46,3 +46,86 @@ Din nou daca zona este decenta si nu sunt alte obstacole care ar ingreuna ateriz
 urma contactului cu furtuna sau are echipamente de curatare dupa impact.
 
 Alte scenarii posibile ar fi sa nu am energie suficienta in aeronava, n am nici un senzor functional.
+
+Part II — Proposed Solution. Based on your analysis, describe how you would handle this scenario. This should include enough technical detail that another engineer on your team could begin implementation (architecture choices, data flows, decision logic, code sketches or pseudocode where appropriate, and the tools or technologies you’d use). Explain why you chose your approach.
+
+Pe baza analizei de mai sus, am propus o arhitectură software implementată în c/c++ optimizată pentru a rula pe un Sistem de Operare în Timp Real. Am ales o abordare cat de simpla se poate pentru a intelege oricine (asa imi place si nici nu trebuie sa ma complic momentan)
+
+#include<iostream>
+using namespace std;
+// definirea starilor
+enum stareZbor{
+	Evaluare,  //stare initiala, gandire 8-10 min
+	Rerutare, //scenariu 1
+	Aterizare, //scenariu 2
+	AlteScenarii //alt scenariu
+};
+stareZbor stareCurenta = Evaluare;
+bool energie = true;
+bool senzori_sol = true;
+bool senzori_frontali=true;
+int timp_rerutare=8;
+//logica de decizie (8 – 10 min)
+void evaluareSituatie(){
+//alte scenarii
+	if ( !energie && !senzori_frontali && !senzori_sol){
+		stareCurenta=AlteScenarii;
+		return;
+	}
+//scenariu I – totul ok, functioneaza bine
+	if ( energie && senzori_frontali){
+		stareCurenta=Rerutare;
+	}
+//scenariu II – rerutarea dureaza prea mult sau senzorii frontali au cedat
+	If (timp_rerutare >=12 || !senzori_frontali) {
+		If (senzori_sol){
+			//scaneaza teren
+			stareCurenta=Aterizare;
+			}
+		Else {
+			stareCurenta = AlteScenarii;
+			}
+		}
+	return;
+}
+	
+
+
+//executie 
+void executieManevra(){
+switch(stareCurenta){
+	case Rerutare:
+		// primire coordonate noi dupa calcul si rerutare
+	break;
+	case Aterizare:
+		//activeaza senzori soli si initializare coborare in zona decenta
+	break;
+	case AlteScenarii:
+		//opreste tot si pregateste te de aterizare / impact/ de furtuna
+	break;
+case Evaluare:
+		// asteapta pana proceseaza datele
+	break;
+}
+}
+
+int main(){
+evaluareSituatie();
+executieManevra();
+return 0;
+}
+
+
+
+Nota privind transparenta si utilizarea AI – ului:
+Am folosit gemini doar pentru a ma asigura ca gandirea mea a fost cat de cat ok si in caz ca limbajul pe care l am folosit nu este unul adecvat sa mi reformuleze. I am spus chat ului sa mi returneze o parte din prompt urile pe care le am utilizat pentru a va putea atasa mai jos:
+
+ 
+
+ 
+ 
+	
+
+ 
+
+
